@@ -6,6 +6,7 @@
       <class name="Com.SRP_Filter_Model.SRP_Main_Test">
         <methods>
           <include name="runSRPTest"/>
+          <include name="setup"/>
         </methods>
       </class> <!-- Com.SRP_Filter_Model.SRP_Main_Test -->
     </classes>

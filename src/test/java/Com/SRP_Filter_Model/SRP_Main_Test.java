@@ -1,10 +1,17 @@
 package Com.SRP_Filter_Model;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 
 
 public class SRP_Main_Test {
+	
+	@BeforeClass
+    public void setup() throws Exception {
+        Config_Utile.loadConfig();
+    }
+	
 	 @Test
 	    public void runSRPTest() {
 
