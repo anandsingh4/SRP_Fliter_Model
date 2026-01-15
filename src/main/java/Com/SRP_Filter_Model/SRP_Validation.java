@@ -41,6 +41,8 @@ public class SRP_Validation {
 		
 		Map<String, String> queryParams_base = API_Con.getAllQueryParams().get(0);
 		
+		int expectedCityId = Integer.parseInt(queryParams_base.get("city"));
+		
 		int pageNum = 1;
 		int maxPages = 5;
 
@@ -87,16 +89,25 @@ public class SRP_Validation {
 		String cg_Obj = resultList_Obj.getString("cg").trim();
 		String PP_Obj = resultList_Obj.getString("pp").trim();
 
-		if(ct_Obj != 0 && ct_Obj == 6245)
-		//(ct_Obj != 0 && ct_Obj == Integer.parseInt(Config_Utile.config.getProperty("city"))) 
-		{
-			matchedCityIds.add(ct_Obj);
-			// System.out.println("The value is:"+matchedCityIds);
+//		if(ct_Obj != 0 && ct_Obj == 6245)
+//		//(ct_Obj != 0 && ct_Obj == Integer.parseInt(Config_Utile.config.getProperty("city"))) 
+//		{
+//			matchedCityIds.add(ct_Obj);
+//			// System.out.println("The value is:"+matchedCityIds);
+//		} else {
+//			NonmatchedCityIds.add(ct_Obj);
+//			NonmatchedCityIds_count++;
+////			System.out.println("The value is:"+NonmatchedCityIds);
+//		}
+		
+		if (ct_Obj == expectedCityId) {
+		    matchedCityIds.add(ct_Obj);
 		} else {
-			NonmatchedCityIds.add(ct_Obj);
-			NonmatchedCityIds_count++;
-//			System.out.println("The value is:"+NonmatchedCityIds);
+		    NonmatchedCityIds.add(ct_Obj);
+		    NonmatchedCityIds_count++;
 		}
+		
+		
 		if (!possStatusD.isEmpty()) {
 			String normalizedStatus = possStatusD.toLowerCase();
 			if (Generic.allowedStatuses.contains(normalizedStatus)) {
