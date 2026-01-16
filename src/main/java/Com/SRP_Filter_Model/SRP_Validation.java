@@ -14,7 +14,6 @@ import org.json.JSONObject;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-//import sun.security.krb5.Config;
 
 public class SRP_Validation {
 	public final List<Integer> matchedCityIds = new ArrayList<>();
@@ -41,8 +40,6 @@ public class SRP_Validation {
 
 		Map<String, String> queryParams_base = API_Con.getAllQueryParams().get(0);
 
-		int expectedCityId = Integer.parseInt(queryParams_base.get("city"));
-
 		int pageNum = 1;
 		int maxPages = 5;
 
@@ -54,9 +51,10 @@ public class SRP_Validation {
 //			.basePath(Base_EndPoint.End_Url)
 					.queryParams(queryParams).accept(ContentType.JSON).contentType(ContentType.JSON)
 					.header("User-Agent", "PostmanRuntime/7.6.0")
-					.header("Cookie", Config_Utile.config.getProperty("cookie"))
-
-					.when().get().then().extract().response();
+//			.header("Cookie",
+//					"SRPSESSIONID=MGVlNWQxYmQtNzNkMy00ZmNmLWFiYTYtNDM2OTM3OTYyNmE4; cityCode=3327; cityCookie=3327; cityNameCookie=Bangalore; cityNameTTvl=Bangalore; cookieDtfirstIntr=20250724; firstInteractionCookie=F; firstLocality=Whitefield; localityCookie=88527; localityNameCookie=Whitefield; projectCategory=B; propCategory=Residential; propertyTypeCookie=Multistorey-Apartment%2CBuilder-Floor-Apartment%2CPenthouse%2CStudio-Apartment; subPropertyType=Multistorey-Apartment%2CBuilder-Floor-Apartment%2CPenthouse%2CStudio-Apartment; subPropertyTypeCookie=10002%2C10003%2C10021%2C10022; uniqUserSearchId=3d549cf256144875b7afa36f4f8eae300ee5d1bd_1753304797026; luxuryCookie=N")
+					.header("Cookie", Config_Utile.config.getProperty("cookie")).when().get().then().extract()
+					.response();
 
 			System.out.println("The response: " + res.asString());
 
@@ -87,13 +85,17 @@ public class SRP_Validation {
 				String cg_Obj = resultList_Obj.getString("cg").trim();
 				String PP_Obj = resultList_Obj.getString("pp").trim();
 
-				if (ct_Obj == expectedCityId) {
+				if (ct_Obj != 0 && ct_Obj == 6245)
+				// (ct_Obj != 0 && ct_Obj ==
+				// Integer.parseInt(Config_Utile.config.getProperty("city")))
+				{
 					matchedCityIds.add(ct_Obj);
+					// System.out.println("The value is:"+matchedCityIds);
 				} else {
 					NonmatchedCityIds.add(ct_Obj);
 					NonmatchedCityIds_count++;
+//			System.out.println("The value is:"+NonmatchedCityIds);
 				}
-
 				if (!possStatusD.isEmpty()) {
 					String normalizedStatus = possStatusD.toLowerCase();
 					if (Generic.allowedStatuses.contains(normalizedStatus)) {

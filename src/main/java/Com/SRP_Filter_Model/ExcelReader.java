@@ -29,7 +29,7 @@ public class ExcelReader {
 
 				if (row == null)
 					continue;
-
+//              if (row != null) {
 				Cell baseCell = row.getCell(0);
 				Cell endCell = row.getCell(1);
 
