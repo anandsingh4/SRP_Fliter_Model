@@ -3,26 +3,13 @@ package Com.SRP_Filter_Model;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-//public class Config_Utile {
-//	public static Properties config;
-//	static void loadConfig() throws Exception {
-//		FileInputStream file = new FileInputStream("src\\test\\resources\\config.properties");
-//		config = new Properties();
-//		config.load(file);
-//		file.close();
-//	}
-//}
-
-
 public class Config_Utile {
-    public static Properties config;
+	public static Properties config;
 
-    public static void loadConfig() throws Exception {
-        FileInputStream file =
-            new FileInputStream("src/main/resources/config.properties");
-        config = new Properties();
-        config.load(file);
-        file.close();
-    }
+	public static void loadConfig() throws Exception {
+		FileInputStream file = new FileInputStream("src/main/resources/config.properties");
+		config = new Properties();
+		config.load(file);
+		file.close();
+	}
 }
-
