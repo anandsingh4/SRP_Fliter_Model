@@ -35,6 +35,7 @@ public class SRP_Validation {
 	public int Non_matched_Cg_Ids_count = 0;
 	public int Matched_Cg_Ids_count = 0;
 	public int NON_Matched_Pp_Ids_count = 0;
+	public int totalRecordsValidated = 0;
 
 	public void SRP_Validation_check(String BaseUrl) {
 
@@ -85,7 +86,7 @@ public class SRP_Validation {
 				String cg_Obj = resultList_Obj.getString("cg").trim();
 				String PP_Obj = resultList_Obj.getString("pp").trim();
 
-				if (ct_Obj != 0 && ct_Obj == 6245)
+				if (ct_Obj != 0 && ct_Obj == 3327)
 				// (ct_Obj != 0 && ct_Obj ==
 				// Integer.parseInt(Config_Utile.config.getProperty("city")))
 				{
