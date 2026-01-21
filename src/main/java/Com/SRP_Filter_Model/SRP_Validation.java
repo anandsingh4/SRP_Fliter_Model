@@ -37,15 +37,51 @@ public class SRP_Validation {
 	public int NON_Matched_Pp_Ids_count = 0;
 	public int totalRecordsValidated = 0;
 
+	
+//	private boolean isInvalidExcelRow(Map<String, String> params) {
+//        if (params == null || params.isEmpty()) {
+//            return true;
+//        }
+//
+//        for (Map.Entry<String, String> entry : params.entrySet()) {
+//            if (entry.getValue() != null && !entry.getValue().trim().isEmpty()) {
+//                return false; // at least one valid value exists
+//            }
+//        }
+//        return true; // all values are empty
+//    }
+	
+	
 	public void SRP_Validation_check(String BaseUrl) {
 
-		Map<String, String> queryParams_base = API_Con.getAllQueryParams().get(0);
+		//Map<String, String> queryParams_base = API_Con.getAllQueryParams().get(0);
+		List<Map<String, String>> allQueryParams = API_Con.getAllQueryParams();
+		
+		for (int rowIndex = 0; rowIndex < allQueryParams.size(); rowIndex++) {
 
+	        System.out.println("Executing for Excel Row: " + (rowIndex + 1));
+
+	        Map<String, String> queryParams_base = allQueryParams.get(rowIndex);
+	        
+//	        try {
+				if (InvalidExceptionRowHandling.isInvalidExcelRow(queryParams_base)) {
+				    System.out.println("Skipping Excel Row (all values empty): " + (rowIndex + 1));
+				    continue;
+//				}
+			} 
+//				catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+	        
 		int pageNum = 1;
 		int maxPages = 5;
 
 		while (pageNum <= maxPages) {
-			Map<String, String> queryParams = new HashMap<>(queryParams_base);
+//			Map<String, String> queryParams = new HashMap<>(queryParams_base);
+//			queryParams.put("page", String.valueOf(pageNum));
+			
+			Map<String,String>queryParams=new HashMap<>(queryParams_base);
 			queryParams.put("page", String.valueOf(pageNum));
 
 			Response res = given().baseUri(BaseUrl)
@@ -60,7 +96,7 @@ public class SRP_Validation {
 			System.out.println("The response: " + res.asString());
 
 			if (res.statusCode() != 200) {
-				System.out.println("🚫 Non-200 response on page " + pageNum + ": " + res.statusCode());
+				System.out.println("Non-200 response on page " + pageNum + ": " + res.statusCode());
 				break;
 			}
 
@@ -68,7 +104,7 @@ public class SRP_Validation {
 			List<Map<String, Object>> properties = jsonPath.getList("resultList");
 
 			if (properties == null || properties.isEmpty()) {
-				System.out.println("🚫 No results on page " + pageNum);
+				System.out.println("No results on page " + pageNum);
 				break;
 			}
 
@@ -77,6 +113,8 @@ public class SRP_Validation {
 			JSONArray resultList = root.getJSONArray("resultList");
 
 			for (int i = 0; i < resultList.length(); i++) {
+				totalRecordsValidated++;
+				
 				JSONObject resultList_Obj = resultList.getJSONObject(i);
 				int ct_Obj = resultList_Obj.getInt("ct");
 				String possStatusD = resultList_Obj.optString("possStatusD").trim();
@@ -145,4 +183,4 @@ public class SRP_Validation {
 		}
 
 	}
-}
+}}

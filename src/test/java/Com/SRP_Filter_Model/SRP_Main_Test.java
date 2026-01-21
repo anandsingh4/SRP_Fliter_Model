@@ -8,6 +8,7 @@ public class SRP_Main_Test {
 	@BeforeClass
 	public void setup() throws Exception {
 		Config_Utile.loadConfig();
+		//System.setProperty("https.protocols", "TLSv1.2");
 	}
 
 	@Test
